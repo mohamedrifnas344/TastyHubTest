@@ -1,0 +1,110 @@
+﻿@model FoodDeliveryApp.Application.ViewModels.Account.LoginRequestVM
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-xxl-10">
+            <div class="card border-0 shadow-lg overflow-hidden rounded-4">
+
+                <div class="row g-0">
+                    <div class="col-lg-5 d-none d-lg-flex flex-column justify-content-between p-5 text-white
+                        bg-danger bg-gradient position-relative"
+                         style="background: linear-gradient(135deg, #ff4e50 0% , #f9d423 100%) !important">
+
+                        <div class="mb-5">
+                            <a class="d-flex align-items-center text-white text-decoration-none h4 fw-bold">
+                                <i class="bi bi-egg-fried me-2 text-warning fs-3"></i> TastyHub
+                            </a>
+                        </div>
+                        <div class="my-auto">
+                            <span class="badge bg-white text-danger fw-bold px-3 py-2 rounded-pill text-uppercase mb-3
+                                shadow-sm">
+                                Welcome Back!
+                            </span>
+                            <h1 class="display-5 fw-bold mb-3 text-white">Hungry for your favorites?</h1>
+                            <p class="lead text-white-50">
+                                Log in to instantly reorder your top meals , track active deliveries , and chack your loyalty points.
+                            </p>
+                        </div>
+                        <div class="mt-auto d-flex justify-content-between align-items-center border-top border-white pt-3">
+                            <small class="text-white-50">&copy; @DateTime.Now.Year TasyHub Inc.</small>
+                            <span class="small text-white fw-semibold">
+                                <i class="bi bi-shield-check me-1"></i> Secure Login
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-7 p-4 p-sm-5 bg-white">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div>
+                                <h2 class="fw-bold text-dark mb-1">Sign In</h2>
+                                <p class="text-muted small">
+                                    Welcome back! Please enter your details to order
+                                </p>
+                            </div>
+                            <span class="badge bg-danger-subtle text-danger p-2 rounded-circle d-lg-none">
+                                <i class="bi bi-egg-fried fs-3"></i>
+                            </span>
+                        </div>
+                        <form asp-area="Identity" asp-controller="Account" asp-action="Login"
+                        method="post">
+                            <div class="row g-3">
+
+                                @* Email Address *@
+                                <div class="col-12">
+                                    <label asp-for="Email" class="form-label small fw-semibold text-secondary"></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0 text-muted">
+                                            <i class="bi bi-envelope"></i>
+                                        </span>
+                                        <input asp-for="Email" class="form-control bg-light border-start-0 ps-0"
+                                               placeholder="yourname@domain.com" />
+                                    </div>
+                                    <span asp-validation-for="Email" class="d-block mt-1 text-danger"></span>
+                                </div>
+
+                                @* Password Address *@
+                                <div class="col-12">
+                                    <label asp-for="Password" class="form-label small fw-semibold text-secondary"></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0 text-muted">
+                                            <i class="bi bi-lock"></i>
+                                        </span>
+                                        <input asp-for="Password" class="form-control bg-light border-start-0 ps-0"
+                                               placeholder="Choose a strong password" />
+                                    </div>
+                                    <span asp-validation-for="Password" class="d-block mt-1 text-danger"></span>
+                                </div>
+
+                                <div class="col-12 d-grid mt-4">
+                                    <button type="submit" class="btn btn-danger btn-lg fw-bold shadow-sm py-2 fs-6
+                                        text-white border-0"
+                                            style="background-color: #ff4e50;">
+                                        Sign In & Exoplore <i class="bi bi-arrow-right ms-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="text-center mt-4">
+                            <p class="text-muted small mb-0">
+                                New to TastyHub?
+                                <a asp-area="Identity" asp-controller="Account" asp-action="Register"
+                                   class="text-danger fw-bold text-decoration-none">Create an Account Here</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

@@ -1,0 +1,201 @@
+﻿@model FoodDeliveryApp.Application.ViewModels.Home.HomeListVM
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+@* Slider Section *@
+<div class="position-relative overflow-hidden mb-5 text-white py-3 min-vh-75 d-flex align-items-center text-center rounded">
+    <img src="Images/food_image.png" alt="Delicious Food Header"
+    class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"/>
+
+    <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-50"></div>
+
+    <div class="container position-relative py-5">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-12 col-lg-8 col-xl-7">
+                <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-semibold text-uppercase mb-3 shadow-sm">
+                    <i class="bi bi-lightning-charge-fill me-1"></i> Fast &amp; Realible
+                </span>
+                <h1 class="display-3 fw-bold text-white lh-sm mb-3">
+                    Delicious Food <br/>
+                    <span class="text-warning">Delivered Fast</span>
+                </h1>
+                <p class="fs-5 text-light opacity-75 mb-3">
+                    Order your favorite meals , fresh salads , sandwiches , and desserts from the comport of your home. 
+                    Ready in minutes.
+                </p>
+                <div class="d-flex flex-wrap gap-3 justify-content-center">
+                    <a asp-area="Customer" asp-controller="Menu" asp-action="Index"
+                        class="btn btn-warning text-dark px-4 py-3 rounded-pill shadow-sm fw-bold">
+                        View Menu <i class="bi bi-menu-button-wide ms-2"></i>
+                    </a>
+                    <a asp-area="Customer" asp-controller="ShoppingCart" asp-action="Index"
+                        class="btn btn-outline-light px-4 py-3 rounded-pill shadow-sm fw-bold">
+                        Order Now <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Category Section *@
+<div class="mb-5">
+    <div class="d-flex justify-content-between align-items-end pb-3 mb-4">
+        <div>
+            <h2 class="display-6 fw-bold text-dark mb-1">
+                Explore Our <span class="text-warning">Menu</span>
+            </h2>
+            <div class="bg-warning rounded-pill my-2" style="width: 80px; height: 4px;"></div>
+            <p class="text-muted fs-5 mb-0">
+                Fresh food , fast delivery , greate taste
+            </p>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button id="category-prev" class="btn btn-secondary rounded-circle p-0 d-inline-flex align-items-center 
+            justify-content-center" aria-label="Previous" style="width: 36px; height: 36px;">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+            <button id="category-next" class="btn btn-secondary rounded-circle p-0 d-inline-flex align-items-center
+                justify-content-center" aria-label="Previous" style="width: 36px; height: 36px;">
+                <i class="bi bi-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="owl-carousel owl-theme category-carousel">
+        @foreach(var category in Model.Categories)
+        {
+            <div class="item text-center p-2">
+                <div class="d-block category-filter" style="cursor: pointer;"
+                data-categoryname="@category.Name">
+                    <div class="category-img-container mx-auto mb-2 overflow-hidden rounded-circle bg-light border 
+                    border-light-subtle shadow-sm d-flex align-items-center justify-content-center"
+                    style="width: 100px; height: 100px; border-radius: 100px; transition: all 0.2s ease-in-out;">
+                        <img src="@category.ImageUrl" alt="@category.Name"
+                        class="w-100 h-100 object-fit-cover"/>
+                    </div>
+                    <span class="fw-semibold text-secondary small text-truncate d-block">
+                        @category.Name
+                    </span>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<hr class="text-black-50 opacity-25 my-4"/>
+
+@* Menu Section *@
+
+<div class="mb-5">
+    <div class="text-center mb-5">
+        <span class="badge bg-danger bg-opacity-10 text-danger px-3 py-2 rounded-pill fw-semibold text-uppercase mb-2">
+            Chef Specials
+        </span>
+        <h2 class="fw-bold text-dark display-6 m-0">Our Popular Menu</h2>
+        <p class="text-muted fs-6 mt-1">Handpicked delicious meals prepared just for you</p>
+    </div>
+
+    <div id="menuContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center g-4">
+        @await Html.PartialAsync("_MenuItemCard" , Model.MenuItems)
+    </div>
+</div>
+
+@* Trust Section *@
+<div class="my-5 py-5 bg-light rounded-4 border border-light-subtle">
+    <div class="row g-4 text-center justify-content-center">
+
+        <div class="col-12 col-md-4 px-4">
+            <div class="p-2">
+                <div class="text-success mb-3">
+                    <i class="bi bi-heart-pulse-fill display-5"></i>
+                </div>
+                <h5 class="fw-bold text-dark mb-2">100% Healthy & Fresh</h5>
+                <p class="text-muted small mb-0">We partner only with certifield kitchens sourcing daily fresh , 
+                   organic and nutritions ingredients.</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 px-4 border-start border-end border-light-subtle">
+            <div class="p-2">
+                <div class="text-warning mb-3">
+                    <i class="bi bi-shield-check display-5"></i>
+                </div>
+                <h5 class="fw-bold text-dark mb-2">Hygiene Guaranteed</h5>
+                <p class="text-muted small mb-0">
+                    Your safety is our top priority. Strict safety protocols are followed from preparation to your doorstep.
+                </p>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 px-4">
+            <div class="p-2">
+                <div class="text-primary mb-3">
+                    <i class="bi bi-truck display-5"></i>
+                </div>
+                <h5 class="fw-bold text-dark mb-2">Eco-Friendly Delivery</h5>
+                <p class="text-muted small mb-0">
+                    Packed in sustainably sourced materials and delivered swiftly to keep your meals fresh and hot.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function(){
+            var categoryCarousel = $('.category-carousel').owlCarousel({
+                loop : true,
+                margin : 20,
+                dots : false,
+                nav : false,
+                responsive : {
+                    0 : {items : 3},
+                    576 : {items : 4},
+                    768 : {items : 6},
+                    1200 : {items : 8}
+                }
+            });
+
+            $('#category-prev').click(function(){
+                categoryCarousel.trigger('prev.owl.carousel');
+            })
+
+             $('#category-next').click(function(){
+                categoryCarousel.trigger('next.owl.carousel');
+            });
+
+            //Filter by category
+            $(document).on('click' , '.category-filter' , function(){
+                let currentItem = $(this);
+                let imgContainer = currentItem.find('.category-img-container');
+                let categoryName = currentItem.data('categoryname');
+                const menuContainer = $('#menuContainer');
+
+                if(imgContainer.hasClass('border-danger border-4')){
+                    categoryName = "";
+                    imgContainer.removeClass('border-danger border-4').addClass('border-light-subtle');
+                } else{
+                    $('.category-img-container').removeClass('border-danger border-4').addClass('border-light-subtle');
+                    imgContainer.removeClass('border-light-subtle').addClass('border-danger border-4')
+                }
+
+                $.ajax({
+                    url : '@Url.Action("FilterByCategory" , "Home" , new{area="Customer"})',
+                    type : 'GET',
+                    data : {categoryName : categoryName},
+                    success : function(result){
+                        menuContainer.html(result)
+                    },
+                    error : function(){
+                        console.error('Error loading menu selection grid items');
+                    }
+                })
+            });
+        })
+    </script>
+}

@@ -1,0 +1,213 @@
+﻿@model FoodDeliveryApp.Application.ViewModels.Order.OrderCreateVM
+
+@{
+    ViewData["Title"] = "Ckeckout";
+}
+
+
+<div class="container-xl my-5">
+    <div class="border-bottom pb-4 mb-5">
+        <div class="row align-items-center gy-3">
+
+            <div class="col-md-8">
+                <nav class="py-3">
+                    <ol class="breadcrumb mb-2 small fw-bold">
+                        <li class="breadcrumb-item">
+                            <a asp-area="Customer" asp-controller="ShoppingCart" asp-action="Index"
+                                class="text-decoration-none text-muted">
+                                Cart
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active text-primary">Checkout</li>
+                    </ol>
+                </nav>
+                <h1 class="h2 fw-bold text-dark mb-1">Confirm and Place Order</h1>
+                <p class="text-muted mb-0 small">
+                    Review your food items , delivery address , and secure your payment details.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <span class="badge bg-light text-dark border px-3 py-2 fs-6 fw-semibold">
+                    <i class="bi bi-shield-lock-fill text-success me-1"></i> End-to-End Encrypted
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 g-xl-5">
+        <div class="col-lg-7">
+
+            <form asp-area="Customer" asp-controller="Order" asp-action="Checkout"
+            method="post">
+                <div class="mb-5">
+                    <div class="d-flex align-items-center mb-4 border-bottom pb-2">
+                        <span class="bg-primary text-white rounded-circle d-flex align-items-center 
+                        justify-content-center fw-bold me-3" style="width: 28px; height: 28px">1</span>
+                        <h4 class="h5 fw-bold mb-0 text-dark">Contact Information</h4>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label asp-for="FirstName" class="form-label small fw-semibold text-secondary"></label>
+                            <input asp-for="FirstName" class="form-control shadow-sm border-secondary-subtle"
+                            placeholder="John"/>
+                            <span asp-validation-for="FirstName" class="text-danger small mt-1"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label asp-for="LastName" class="form-label small fw-semibold text-secondary"></label>
+                            <input asp-for="LastName" class="form-control shadow-sm border-secondary-subtle"
+                             placeholder="Doe" />
+                            <span asp-validation-for="LastName" class="text-danger small mt-1"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Email" class="form-label small fw-semibold text-secondary"></label>
+                            <div class="input-group shadow-sm">
+                                <span class="input-group-text bg-light text-muted border-secondary-subtle">
+                                    <i class="bi bi-envelope"></i>
+                                </span>
+                                <input asp-for="Email" class="form-control shadow-sm border-secondary-subtle"
+                                placeholder="you@example.com"/>
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger small mt-1"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label asp-for="Phone1" class="form-label small fw-semibold text-secondary"></label>
+                            <input asp-for="Phone1" type="tel" class="form-control shadow-sm border-secondary-subtle"
+                            placeholder="+0-123-456-789" />
+                            <span asp-validation-for="Phone1" class="text-danger small mt-1"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label asp-for="Phone2" class="form-label small fw-semibold text-secondary">
+                                Phone2 <span class="text-muted fw-normal">(Optional)</span>
+                            </label>
+                            <input asp-for="Phone2" type="tel" class="form-control shadow-sm border-secondary-subtle"
+                            placeholder="+0-123-456-789" />
+                            <span asp-validation-for="Phone2" class="text-danger small mt-1"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <div class="d-flex align-items-center mb-4 border-bottom pb-2">
+                        <span class="bg-primary text-white rounded-circle d-flex align-items-center
+                        justify-content-center fw-bold me-3" style="width: 28px; height: 28px">2</span>
+                        <h4 class="h5 fw-bold mb-0 text-dark">Delivery Address</h4>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label asp-for="Street" class="form-label small fw-semibold text-secondary"></label>
+                            <input asp-for="Street" class="form-control shadow-sm border-secondary-subtle"
+                            placeholder="123 Main st" />
+                            <span asp-validation-for="Street" class="text-danger small mt-1"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label asp-for="City" class="form-label small fw-semibold text-secondary"></label>
+                            <input asp-for="City" class="form-control shadow-sm border-secondary-subtle"
+                            placeholder="Armenia" />
+                            <span asp-validation-for="City" class="text-danger small mt-1"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label asp-for="PostalCode" class="form-label small fw-semibold text-secondary">
+                                Postal Code <span class="text-muted fw-normal">(Optional)</span>
+                            </label>
+                            <input asp-for="PostalCode" class="form-control shadow-sm border-secondary-subtle"
+                            placeholder="123B" />
+                            <span asp-validation-for="PostalCode" class="text-danger small mt-1"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="DeliveryInstructions" class="form-label small fw-semibold text-secondary">
+                                Delivery Instructions <span class="text-muted fw-normal">(Optional)</span>
+                            </label>
+                            <textarea asp-for="DeliveryInstructions" class="form-control shadow-sm border-secondary-subtle"
+                            rows="3" placeholder="Apartment code , drop of details , etc..."></textarea>
+                            <span asp-validation-for="DeliveryInstructions" class="text-danger small mt-1"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-grid gap-2 border-top pt-4">
+                    <button type="submit" class="btn btn-primary btn-lg fw-bold shadow">
+                        <i class="bi bi-credit-card-2 me-2"></i> Place Secure Order
+                    </button>
+                    <p class="text-center text-muted small mt-2">
+                        By Placing this order you agree to your Terms of Service and Refund policy.
+                    </p>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card border border-secondary-subtle shadow-sm overflow-hidden sticky-top"
+            style="top : 2rem; z-index: 1020;">
+                <div class="card-header bg-dark text-white p-4 border-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="h5 fw-bold mb-0 text-uppercase">Order Summary</h4>
+                        <span class="badge bg-primary px-3 py-2 fw-semibold fs-6 rounded-pill">
+                            @Model.TotalItems @(Model.TotalItems > 1 ? "Items" : "Item")
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body p-4 bg-white">
+                    <div class="overflow-y-auto mb-4 border-bottom" style="max-height: 300px;">
+                        <ul class="list-group list-group-flush">
+                            @foreach(var item in Model.Items)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-start px-0 py-3 
+                                border-light bg-transparent">
+                                    <div class="d-flex align-items-center">
+                                        <img src="@item.MenuItemImageUrl" alt="@item.MenuItemName"
+                                        class="rounded-2 me-3 border-light object-fit-cover shadow-sm"
+                                        style="width: 52px; height: 52px;"/>
+                                        <div>
+                                            <h6 class="mb-1 fw-bold text-dark text-truncate" style="max-width: 190px;">
+                                                @item.MenuItemName
+                                            </h6>
+                                            <p class="text-muted small mb-0 fw-semibold">
+                                                Qty: @item.Quantity &times; 
+                                                $@item.Price.ToString("F2")
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <span class="text-dark fw-bold small pt-1">
+                                        $@item.SubTotal.ToString("F2")
+                                    </span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="p-3 bg-light rounded-3 mb-4 border">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-secondary small fw-semibold">Subtotal</span>
+                            <span class="text-dark fw-bold small">
+                                $@Model.TotalPrice.ToString("F2")
+                            </span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-0">
+                            <span class="text-secondary small fw-semibold">Delivery Fee</span>
+                            <span class="text-dark fw-bold small">
+                                $@Model.DeliveryFee.ToString("F2")
+                            </span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong class="h6 text-dark d-block mb-0 fw-bold">Total Billable Amount</strong>
+                            <span class="text-muted small fs-6">Includes applicable taxes</span>
+                        </div>
+                        <strong class="h3 text-primary mb-0 fw-bold">
+                            $@Model.GrandTotal.ToString("F2")
+                        </strong>
+                    </div>
+                </div>
+                <div class="card-footer bg-light p-3 border-top border-secondary-subtle text-center">
+                    <span class="text-muted small fs-6">
+                        <i class="bi bi-clock me-1 text-warning"></i> Estimated Delivery : 25 - 35 Mins
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

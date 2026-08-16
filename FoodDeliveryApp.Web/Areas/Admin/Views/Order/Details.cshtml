@@ -1,0 +1,21 @@
+﻿@model FoodDeliveryApp.Application.ViewModels.Order.OrderResponseVM
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-1">Order Details</h1>
+            <p class="text-muted mb-1">Order Id : <span class="fw-bold text-dark">@Model.Id</span></p>
+        </div>
+        <a asp-area="Admin" asp-controller="Order" asp-action="Index"
+            class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Orders
+        </a>
+    </div>
+    <div>
+        @await Html.PartialAsync("_OrderDetails" , Model)
+    </div>
+</div>

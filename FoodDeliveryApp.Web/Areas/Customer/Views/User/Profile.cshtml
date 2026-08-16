@@ -1,0 +1,86 @@
+﻿@model FoodDeliveryApp.Application.ViewModels.UserManagement.UserResponseVM
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow border-0 rounded-4 overflow-hidden">
+                <div class="row g-0">
+                    <div class="col-md-4 bg-light text-center border-end p-4 d-flex justify-content-center align-items-center">
+                        <div class="position-relative mb-3">
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center 
+                            justify-content-center shadow-sm"
+                            style="width: 110px; height: 110px; font-size: 2rem; font-weight: 600;">
+                                @Model.FirstName[0]@Model.LastName[0]
+                            </div>
+                            <span class="position-absolute bottom-0 end-0 badge rounded-pill bg-success border 
+                            border-white border-2 p-2">
+                                <span class="visually-hidden">Active Status</span>
+                            </span>
+                        </div>
+                        <h4 class="fw-bold text-danger mb-1">@Model.FirstName @Model.LastName</h4>
+                        <p class="text-muted small mb-3">@Model.UserName</p>
+                        <span class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill font-monospace 
+                        text-uppercase shadow-sm">
+                            <i class="bi bi-shield-lock me-1"></i> @Model.Role
+                        </span>
+                    </div>
+
+                    <div class="col-md-8 p-4 p-lg-5">
+                        <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                            <div>
+                                <h3 class="fw-bold mb-0 text-dark">User Profile</h3>
+                                <p class="text-muted small mb-0">Account details and permissions</p>
+                            </div>
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-12">
+                                <label class="form-label text-muted small fw-semibold text-uppercase">Account Id</label>
+                                <div class="bg-light p-3 rounded-3 font-monospace text-secondary text-break">
+                                    @Model.Id
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label text-muted small fw-semibold text-uppercase">First Name</label>
+                                <p class="fs-5 fw-medium text-dark mb-0 bg-light-subtle rounded border-start 
+                                border-primary border-3">@Model.FirstName</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label text-muted small fw-semibold text-uppercase">Last Name</label>
+                                <p class="fs-5 fw-medium text-dark mb-0 bg-light-subtle rounded border-start
+                                border-primary border-3">@Model.LastName</p>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-muted small fw-semibold text-uppercase">Email</label>
+                                <div class="d-flex align-items-center bg-light-subtle p-2 rounded border-start 
+                                border-primary border-3">
+                                    <i class="bi bi-envelope me-3 text-muted"></i>
+                                    <span class="fs-5 fw-medium text-dark">@Model.Emain</span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-muted small fw-semibold text-uppercase">Username</label>
+                                <p class="fs-5 fw-medium text-dark mb-0 bg-light-subtle rounded border-start
+                                border-primary border-3">@Model.UserName</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 pt-3 border-top d-flex justify-content-between align-items-center">
+                            <span class="text-muted small">
+                                <i class="bi bi-info-circle me-1"></i> To request changes , contact your administrator.
+                            </span>
+                            <a asp-area="Customer" asp-controller="Home" asp-action="Index"
+                                class="btn btn-outline-secondary btn-sm rounded-2 px-3">
+                                <i class="bi bi-arrow-left me-1"></i> Back to Home
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,108 @@
+﻿@model List<FoodDeliveryApp.Application.ViewModels.MenuItem.MenuItemResponseVM>
+
+@{
+    ViewData["Title"] = "Menu List";
+}
+
+
+<div class="card shadow-sm border-0 rounded-4">
+    <div class="card-header bg-white border-0 px-4 py-3 d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-0 fw-bold text-danger">Menu Management</h5>
+            <small class="text-muted">Overview and control of your menu items.</small>
+        </div>
+        <a asp-area="Admin" asp-controller="MenuItem" asp-action="Add"
+           class="btn btn-primary px-3 shadow-sm d-flex align-items-center gap-2">
+            <i class="bi bi-plus-lg"></i>Add Menu
+        </a>
+    </div>
+
+    <div class="card-body p-0">
+        @if(Model != null && Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light text-secondary text-uppercase small">
+                        <tr>
+                            <th class="ps-2">Name</th>
+                            <th>Image</th>
+                            <th>Category Name</th>
+                            <th>Price</th>
+                            <th>Special Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var menuItem in Model)
+                        {
+                            <tr>
+                                <td class="ps-2">@menuItem.Name</td>
+                                <td class="text-start">
+                                    <img src="@menuItem.ImageUrl" alt="@menuItem.Name"
+                                    class="rounded-3 object-fit-cover shadow-sm img-fluid"
+                                    style="width: 90px ; height:90px; border-radius: 90px;" />
+                                </td>
+                                <td>
+                                    <span class="badge bg-info text-danger border px-3 py-2 rounded-pill fw-medium">
+                                        <i class="bi bi-tag-fill me-1 text-secondary"></i> @menuItem.CategoryName
+                                    </span>
+                                </td>
+                                <td class="fw-semibold text-danger">
+                                    $@menuItem.Price.ToString("F2")
+                                </td>
+                                <td class="fw-semibold">
+                                    @if(menuItem.SpecialPrice.HasValue && menuItem.SpecialPrice < menuItem.Price)
+                                    {
+                                        <span class="text-danger">@menuItem.SpecialPrice.Value.ToString("F2")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted small">-</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <a asp-area="Admin" 
+                                           asp-controller="MenuItem" 
+                                           asp-action="Edit" asp-route-id="@menuItem.Id"
+                                            class="btn btn-sm btn-outline-warning">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <form method="post"
+                                            asp-area="Admin" 
+                                            asp-controller="MenuItem" 
+                                            asp-action="Delete" 
+                                            asp-route-id="@menuItem.Id"
+                                            class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5 my-5">
+                <div class="bg-light d-inline-flex align-items-center justify-content-center rounded-circle p-4 mb-3">
+                    <i class="bi bi-egg-fried display-5 text-muted"></i>
+                </div>
+                <h5 class="fw-bold">Your Menu is Empty.</h5>
+                <div class="row justify-content-center px-3">
+                    <p class="text-muted col-10 col-md-6 col-lg-4">
+                        Looks like you haven't added any menu items yet. Let's create something delicious!
+                    </p>
+                </div>
+                <a asp-area="Admin" asp-controller="MenuItem" asp-action="Add"
+                   class="btn btn-primary mt-2 px-4 shadow-sm">
+                    <i class="bi bi-plus-lg"></i>Add your menu
+                </a>
+            </div>
+        }
+    </div>
+</div>

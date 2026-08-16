@@ -1,0 +1,371 @@
+﻿@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+    var currentStatus = Context.Request.Query["status"].ToString();
+
+    string GetActiveClass(string controller , string action = "Index" , string status = null)
+    {
+        bool matchController = string.Equals(currentController, controller, StringComparison.OrdinalIgnoreCase);
+        bool matchAction = string.Equals(currentAction, action, StringComparison.OrdinalIgnoreCase);
+        bool matchStatus = string.Equals(currentStatus, status, StringComparison.OrdinalIgnoreCase);
+        bool isActive = false;
+
+        if (!string.IsNullOrEmpty(status))
+        {
+            isActive = matchController && matchStatus;
+        }
+        else
+        {
+            isActive = matchController && matchAction;
+        }
+
+        return isActive ? "active bg-primary-subtle text-primary fw-bold border-start border-3 border-primary rounded-end" :
+        "text-secondary";
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FoodDeliveryApp.Web</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/FoodDeliveryApp.Web.styles.css" asp-append-version="true" />
+    <link rel=" stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+</head>
+<body class="bg-light-subtle text-dark">
+    
+    <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top py-3">
+        <div class="container-fluid px-4">
+            <button type="button" class="btn btn-light border d-lg-none me-3"
+            data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+                <i class="bi bi-text-left fs-4"></i>
+            </button>
+            <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index"
+                class="navbar-brand fw-bold fs-4 d-flex align-items-center text-danger text-decoration-none text-uppercase">
+                <div class="bg-primary text-white d-flex align-items-center justify-content-center rounded-3 me-2"
+                style="width: 38px; height: 38px;">
+                    <i class="bi bi-lightning fs-5"></i>
+                </div>
+                <span class="fw-bold">Tasty<span class="text-primary">Hub</span></span>
+            </a>
+
+            <div class="d-flex align-items-center gap-2 ms-auto">
+                <div class="vr mx-2 text-muted opacity-25"></div>
+                <div class="dropdown">
+                    <button class="btn btn-link text-decoration-none dropdown-toggle d-flex align-items-center gap-2 p-1 text-danger"
+                    data-bs-toggle="dropdown">
+                        <div class="bg-secondary-subtle rounded-circle d-flex align-items-center justify-content-center 
+                        fw-bold text-uppercase" style="width:38px; height: 38px; font-size: 0.85rem;">
+                            AU
+                        </div>
+                        <span class="d-none d-sm-inline fw-medium small">Admin User</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border border-light-subtle mt-2 rounded-3">
+                        <li>
+                            <form asp-area="Identity" asp-controller="Account" asp-action="Logout"
+                            method="post">
+                                <button type="submit" class="dropdown-item text-danger py-2 small">
+                                    <i class="bi bi-power me-2"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid px-4">
+        <div class="row">
+            <aside class="col-lg-2 d-none d-lg-block bg-white border-end min-vh-100 sticky-top px-3 sidebar"
+            style="top: 76px; max-height: calc(100vh - 76px); overflow-y: auto;">
+                <div class="text-muted text-uppercase fw-bold mb-3 mt-4 px-2"
+                style="font-size: 0.7rem; letter-spacing: 1px;">
+                    Management
+                </div>
+
+                <ul class="nav flex-column mb-4 gap-1">
+                    <li class="nav-item">
+                        <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index"
+                            class="nav-link px-3 py-2 d-flex align-items-center text-decoration-none
+                            @GetActiveClass("Dashboard" , "Index")">
+                            <i class="bi bi-speedometer2 me-3"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-area="Admin" asp-controller="Category" asp-action="Index"
+                           class="nav-link px-3 py-2 d-flex align-items-center text-decoration-none
+                            @GetActiveClass("Category", "Index")">
+                            <i class="bi bi-tags me-3"></i> Categories
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-area="Admin" asp-controller="MenuItem" asp-action="Index"
+                           class="nav-link px-3 py-2 d-flex align-items-center text-decoration-none
+                            @GetActiveClass("MenuItem", "Index")">
+                            <i class="bi bi-box-seam me-3"></i> MenuItems
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="text-muted text-uppercase fw-bold mb-3 mt-4 px-2"
+                     style="font-size: 0.7rem; letter-spacing: 1px;">
+                    Sales & Customers
+                </div>
+
+                <ul class="nav flex-column mb-4 gap-1">
+                    <li class="nav-item">
+                        <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center 
+                        border-0 bg-transparent text-secondary px-3 py-2"
+                        data-bs-toggle="collapse" href="#desktopOrderSidebar" role="button"
+                        aria-expanded="@(currentController == "Order" ? "true" : "false")">
+                            <span>
+                                <i class="bi bi-receipt me-3"></i> Orders
+                            </span>
+                            <i class="bi bi-chevron-down small opacity-50"></i>
+                        </button>
+
+                        <div class="collapse @(currentController == "Order" ? "show" : "")"
+                             id="desktopOrderSidebar">
+                            <ul class="nav flex-column mt-1 gap-1 ps-3 border-start ms-3 border-light-subtle">
+                                <li>
+                                    <a asp-area="Admin" asp-controller="Order" asp-action="Index" 
+                                        class="nav-link px-3 small py-2 text-decoration-none d-block 
+                                    @GetActiveClass("Order" , "Index" , "")">
+                                        All Orders
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="Admin" asp-controller="Order" asp-action="Index" asp-route-status="Pending"
+                                        class="nav-link px-3 small py-2 text-decoration-none d-block
+                                    @GetActiveClass("Order" , "Index" , "Pending")">
+                                        <span class="badge bg-warning-subtle text-warning me-2"
+                                        style="width: 8px; height: 8px; border-radius: 8px; padding: 0; display: inline-block;">
+                                        </span> Pending
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="Admin" asp-controller="Order" asp-action="Index" asp-route-status="Confirmed"
+                                        class="nav-link px-3 small py-2 text-decoration-none d-block
+                                        @GetActiveClass("Order", "Index", "Confirmed")">
+                                        <span class="badge bg-primary-subtle text-warning me-2"
+                                        style="width: 8px; height: 8px; border-radius: 8px; padding: 0; display: inline-block;">
+                                        </span> Confirmed
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="Admin" asp-controller="Order" asp-action="Index" asp-route-status="Preparing"
+                                        class="nav-link px-3 small py-2 text-decoration-none d-block
+                                        @GetActiveClass("Order", "Index", "Preparing")">
+                                        <span class="badge bg-info-subtle text-warning me-2"
+                                        style="width: 8px; height: 8px; border-radius: 8px; padding: 0; display: inline-block;">
+                                        </span> Preparing
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="Admin" asp-controller="Order" asp-action="Index" asp-route-status="OutForDelivery"
+                                        class="nav-link px-3 small py-2 text-decoration-none d-block
+                                        @GetActiveClass("Order", "Index", "OutForDelivery")">
+                                        <span class="badge bg-success-subtle text-warning me-2"
+                                        style="width: 8px; height: 8px; border-radius: 8px; padding: 0; display: inline-block;">
+                                        </span> OutForDelivery
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="Admin" asp-controller="Order" asp-action="Index" asp-route-status="Delivered"
+                                        class="nav-link px-3 small py-2 text-decoration-none d-block
+                                        @GetActiveClass("Order", "Index", "Delivered")">
+                                        <span class="badge bg-success-subtle text-warning me-2"
+                                        style="width: 8px; height: 8px; border-radius: 8px; padding: 0; display: inline-block;">
+                                        </span> Delivered
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="Admin" asp-controller="Order" asp-action="Index" asp-route-status="Cancelled"
+                                        class="nav-link px-3 small py-2 text-decoration-none d-block
+                                        @GetActiveClass("Order", "Index", "Cancelled")">
+                                        <span class="badge bg-danger-subtle text-warning me-2"
+                                        style="width: 8px; height: 8px; border-radius: 8px; padding: 0; display: inline-block;">
+                                        </span> Cancelled
+                                    </a>
+                                </li>
+                            </ul>
+                         </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a asp-area="Admin" asp-controller="UserManagement" asp-action="Index"
+                            class="nav-link px-3 py-2 d-flex align-items-center text-decoration-none
+                            @GetActiveClass("UserManagement", "Index")">
+                            <i class="bi bi-people me-3"></i> Users
+                        </a>
+                    </li>
+                </ul>
+                <div class="mt-auto pt-4 border-top">
+                    <a asp-area="Customer" asp-controller="Home" asp-action="Index"
+                        class="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-house-door me-2"></i> Go to Home
+                    </a>
+                </div>
+            </aside>
+            <main class="col-lg-10 px-md-4 pt-4">
+                <div class="card border-0 shadow-sm p-4 bg-white rounded-4 min-vh-100 mb-5">
+                    <partial name="_LoadingSpinner" />
+                    <partial name="_Notification" />
+                    @RenderBody()
+                </div>
+
+                <footer class="text-center py-3 text-muted border-top border-light small">
+                    &copy; 2026 <strong>TastyHub</strong>
+                </footer>
+            </main>
+        </div>
+    </div>
+
+
+    @* Mobile Screen *@
+    <div class="offcanvas offcanvas-start bg-white text-dark shadow-lg border-0"
+         tabindex="-1" id="mobileSidebar">
+        <div class="offcanvas-header border-bottom py-3">
+            <h5 class="offcanvas-title fw-bold text-dark d-flex align-items-center">
+                <i class="bi bi-lightning text-primary me-2"></i> TastyHub
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+
+        <div class="offcanvas-body p-3">
+            <div class="text-muted text-uppercase fw-bold mb-3 px-2"
+            style="font-size: 0.7rem; letter-spacing: 1px;">
+                Management
+            </div>
+
+            <ul class="nav flex-column mb-4 gap-1">
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index"
+                       class="nav-link px-3 py-2 text-decoration-none">
+                        <i class="bi bi-speedometer2 me-3"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="Category" asp-action="Index"
+                       class="nav-link px-3 py-2 text-decoration-none">
+                        <i class="bi bi-tags me-3"></i> Categories
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="MenuItem" asp-action="Index"
+                       class="nav-link px-3 py-2 text-decoration-none">
+                        <i class="bi bi-box-seam me-3"></i> MenuItems
+                    </a>
+                </li>
+            </ul>
+
+            <div class="text-muted text-uppercase fw-bold mb-3 mt-4 px-2"
+                 style="font-size: 0.7rem; letter-spacing: 1px;">
+                Sales & Customers
+            </div>
+
+            <ul class="nav flex-column mb-4 gap-1">
+                <li class="nav-item">
+                    <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center
+                        border-0 bg-transparent text-secondary px-3 py-2"
+                            data-bs-toggle="collapse" href="#desktopOrderSidebar" role="button"
+                            aria-expanded="@(currentController == "Order" ? "true" : "false")">
+                        <span>
+                            <i class="bi bi-receipt me-3"></i> Orders
+                        </span>
+                        <i class="bi bi-chevron-down small opacity-50"></i>
+                    </button>
+
+                    <div class="collapse @(currentController == "Order" ? "show" : "")"
+                         id="desktopOrderSidebar">
+                        <ul class="nav flex-column mt-1 gap-1 ps-3 border-start ms-3 border-light-subtle">
+                            <li>
+                                <a asp-area="Admin" asp-controller="Order" asp-action="Index" 
+                                    class="nav-link px-3 small py-2 text-decoration-none d-block
+                                    @GetActiveClass("Order", "Index", "")">
+                                    All Orders
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="Admin" asp-controller="Order" asp-action="Index" asp-route-status="Pending"
+                                    class="nav-link px-3 small py-2 text-decoration-none d-block
+                                    @GetActiveClass("Order", "Index", "Pending")">
+                                    <span class="badge bg-warning-subtle text-warning me-2"
+                                          style="width: 8px; height: 8px; border-radius: 8px; padding: 0; display: inline-block;">
+                                    </span> Pending
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="Admin" asp-controller="Order" asp-action="Index" asp-route-status="Confirmed"
+                                    class="nav-link px-3 small py-2 text-decoration-none d-block
+                                    @GetActiveClass("Order", "Index", "Confirmed")">
+                                    <span class="badge bg-primary-subtle text-warning me-2"
+                                          style="width: 8px; height: 8px; border-radius: 8px; padding: 0; display: inline-block;">
+                                    </span> Confirmed
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="Admin" asp-controller="Order" asp-action="Index" asp-route-status="Preparing"
+                                    class="nav-link px-3 small py-2 text-decoration-none d-block
+                                    @GetActiveClass("Order", "Index", "Preparing")">
+                                    <span class="badge bg-info-subtle text-warning me-2"
+                                          style="width: 8px; height: 8px; border-radius: 8px; padding: 0; display: inline-block;">
+                                    </span> Preparing
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="Admin" asp-controller="Order" asp-action="Index" asp-route-status="OutForDelivery"
+                                    class="nav-link px-3 small py-2 text-decoration-none d-block
+                                    @GetActiveClass("Order", "Index", "OutForDelivery")">
+                                    <span class="badge bg-success-subtle text-warning me-2"
+                                          style="width: 8px; height: 8px; border-radius: 8px; padding: 0; display: inline-block;">
+                                    </span> OutForDelivery
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="Admin" asp-controller="Order" asp-action="Index" asp-route-status="Delivered"
+                                    class="nav-link px-3 small py-2 text-decoration-none d-block
+                                    @GetActiveClass("Order", "Index", "Delivered")">
+                                    <span class="badge bg-success-subtle text-warning me-2"
+                                          style="width: 8px; height: 8px; border-radius: 8px; padding: 0; display: inline-block;">
+                                    </span> Delivered
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="Admin" asp-controller="Order" asp-action="Index" asp-route-status="Cancelled"
+                                    class="nav-link px-3 small py-2 text-decoration-none d-block
+                                    @GetActiveClass("Order", "Index", "Cancelled")">
+                                    <span class="badge bg-danger-subtle text-warning me-2"
+                                          style="width: 8px; height: 8px; border-radius: 8px; padding: 0; display: inline-block;">
+                                    </span> Cancelled
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Index"
+                        class="nav-link px-3 py-2 text-decoration-none
+                        @GetActiveClass("UserManagement", "Index")">
+                        <i class="bi bi-people me-3"></i> Users
+                    </a>
+                </li>
+            </ul>
+        </div>
+     </div>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

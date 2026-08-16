@@ -1,0 +1,68 @@
+﻿@model FoodDeliveryApp.Application.ViewModels.Menu.MenuListVM
+@{
+    ViewData["Title"] = "Our Menu";
+}
+
+
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 fw-semibold text-uppercase mb-2">
+            Fresh & Fast
+        </span>
+        <h1 class="fw-bold text-dark display-5 mb-2">Explore Our Delicious Menu</h1>
+        <p class="text-muted col-lg-6 mx-auto">
+            Discover fresh , high-quality meals prepared by top chefs and delivered straight to your door
+        </p>
+    </div>
+    <form id="filterForm" class="card shadow-sm border-light rounded-4 mb-5">
+        <div class="card-body p-4">
+            <div class="row g-3 align-items-end">
+                <div class="col-12 col-md-4 col-lg-3">
+                    <label for="categoryFilter" class="form-label fw-semibold text-secondary mb-1">
+                        Select Category
+                    </label>
+                    <select id="categoryFilter" class="filter-input form-select border-light-subtle py-2 shadow-none text-dark"
+                    name="categoryName">
+                        <option value="">All Categories</option>
+                        @foreach(var category in Model.Categories)
+                        {
+                            <option value="@category.Name" 
+                            selected="@(ViewBag.CategoryName == category.Name)">@category.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-12 col-md-5 col-lg-7">
+                    <label for="searchInput" class="form-label fw-semibold text-secondary mb-1">Search Dishes</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-light-subtle text-muted">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" name="search" value="@ViewBag.Search"
+                         class="form-control bg-light border-light-subtle py-2 shadow-none filter-input"
+                        id="searchInput" placeholder="Search for dishes , desserts , starters ..."/>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3 col-lg-2 d-grid">
+                    <a asp-area="Customer" asp-controller="Menu" asp-action="Index"
+                        class="btn btn-outline-secondary py-2 float-sm-end shadow-sm">
+                        <i class="bi bi-arrow-counterclockwise"></i> Reset
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="menuGrid">
+        @await Html.PartialAsync("_MenuItemCard" , Model.MenuItems)
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function(){
+            $('.filter-input').on('change' , function(){
+                $('#filterForm').submit();
+            })
+        })
+    </script>
+}

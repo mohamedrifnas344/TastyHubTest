@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="FoodDeliveryApp.Application/FoodDeliveryApp.Application.csproj" Id="a66625c4-c250-4d68-a872-e85ec9d7a0fe" />
+  <Project Path="FoodDeliveryApp.Domain/FoodDeliveryApp.Domain.csproj" Id="82f0745f-100d-4c26-8440-ff7f13b535cc" />
+  <Project Path="FoodDeliveryApp.Infrastructure/FoodDeliveryApp.Infrastructure.csproj" Id="143b97a9-40be-4fc1-885c-c47ed1d15e18" />
+  <Project Path="FoodDeliveryApp.Utility/FoodDeliveryApp.Utility.csproj" Id="69e72a0d-7e04-42f9-9715-0488f6b1ad53" />
+  <Project Path="FoodDeliveryApp.Web/FoodDeliveryApp.Web.csproj" Id="3f6b8e06-ae9b-4b45-9c01-704faccf26de" />
+</Solution>

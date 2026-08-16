@@ -1,0 +1,64 @@
+﻿@model FoodDeliveryApp.Application.ViewModels.Order.OrderCreationResult
+
+@{
+    ViewData["Title"] = "Order Confirmation";
+}
+
+
+<div class="container my-3 py-5">
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-md-8 col-lg-6 text-center">
+            <div class="mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="90"
+                     height="90"
+                     fill="none"
+                     viewBox="0 0 24 24">
+                    <circle cx="12"
+                            cy="12"
+                            r="11"
+                            fill="#198754" />
+                    <path d="M7 12.5L10.5 16L17.5 9"
+                          stroke="white"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                </svg>
+            </div>
+
+            <h1 class="display-5 fw-bold text-dark mb-3">Order Confirmed!</h1>
+            <p class="text-muted fs-5 mb-4">
+                Thank you for your order. we're recieved your payment and our kitchen is already preparing your meal.
+            </p>
+
+            <div class="card border-0 shadow-sm bg-light mb-5">
+                <div class="card border p-4 text-start">
+                    <h5 class="fw-bold text-dark border-bottom pb-2 mb-3">Order Confirmation Details</h5>
+
+                    <div class="row g-2">
+                        <div class="col-sm-9">
+                            <span class="text-secondary small d-block">Order Id</span>
+                            <span class="text-dark fs-6">#@Model.OrderId</span>
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="text-secondary small d-block">Total Paid</span>
+                            <span class="text-dark fs-5">$@Model.GrandTotal.ToString("F2")</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-sm-row gap-3">
+                <a asp-area="Customer" asp-controller="Menu" asp-action="Index"
+                    class="btn btn-light px-4 btn-lg fw-semibold border flex-grow-1 flex-sm-grow-0">
+                    Continue Shopping
+                </a>
+                <a asp-area="Customer" asp-controller="Order" asp-action="MyOrders"
+                    class="btn btn-primary px-4 btn-lg fw-semibold border flex-grow-1 flex-sm-grow-0">
+                    Track Your Order
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
